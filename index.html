@@ -13,24 +13,71 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4">我的行程排序器</h1>
+        <div id="current-date" class="text-center mb-3"></div>
+        
+        <!-- 快速日期選擇 -->
+        <div class="text-center mb-4">
+            <button class="btn btn-outline-secondary me-2" onclick="changeDate(-1)">
+                <i class="fas fa-chevron-left"></i> 前一天
+            </button>
+            <button class="btn btn-outline-primary me-2" onclick="goToToday()">今天</button>
+            <button class="btn btn-outline-secondary" onclick="changeDate(1)">
+                後一天 <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
         
         <div class="row">
             <div class="col-md-6 mx-auto">
                 <div class="card">
                     <div class="card-body">
                         <form id="task-form" class="mb-4">
-                            <div class="input-group">
-                                <input type="text" id="task-input" class="form-control" placeholder="輸入行程..." required>
-                                <button type="submit" class="btn btn-primary">新增</button>
+                            <div class="mb-3">
+                                <input type="date" id="task-date" class="form-control mb-2" required>
+                                <select id="task-time" class="form-control mb-2" required>
+                                    <option value="">選擇時間區段...</option>
+                                    <option value="morning">上午 (06:00-12:00)</option>
+                                    <option value="afternoon">下午 (12:00-18:00)</option>
+                                    <option value="evening">晚上 (18:00-24:00)</option>
+                                </select>
+                                <input type="text" id="task-input" class="form-control mb-2" placeholder="輸入行程..." required>
+                                <textarea id="task-description" class="form-control mb-2" placeholder="輸入行程描述（選填）" rows="2"></textarea>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">新增行程</button>
+                                </div>
                             </div>
                         </form>
                         
-                        <ul id="task-list" class="list-group">
-                            <!-- 行程項目會被動態添加到這裡 -->
-                        </ul>
+                        <div id="task-container">
+                            <div class="time-section mb-3">
+                                <h5>上午</h5>
+                                <ul id="morning-list" class="list-group task-list">
+                                </ul>
+                            </div>
+                            <div class="time-section mb-3">
+                                <h5>下午</h5>
+                                <ul id="afternoon-list" class="list-group task-list">
+                                </ul>
+                            </div>
+                            <div class="time-section mb-3">
+                                <h5>晚上</h5>
+                                <ul id="evening-list" class="list-group task-list">
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <!-- 匯入/匯出按鈕 -->
+        <div class="text-center mt-4">
+            <button onclick="exportTasks()" class="btn btn-outline-primary me-2">
+                <i class="fas fa-download me-1"></i>匯出行程
+            </button>
+            <label class="btn btn-outline-primary">
+                <i class="fas fa-upload me-1"></i>匯入行程
+                <input type="file" accept=".json" onchange="importTasks(event)" style="display: none;">
+            </label>
         </div>
     </div>
 
