@@ -1,0 +1,38 @@
+.list-group-item {
+    cursor: move;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.sortable-ghost {
+    opacity: 0.4;
+    background-color: #c8ebfb;
+}
+
+.delete-btn {
+    color: #dc3545;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border: none;
+    background: none;
+}
+
+.delete-btn:hover {
+    color: #bd2130;
+}
+
+.drag-handle {
+    cursor: move;
+    color: #6c757d;
+    margin-right: 10px;
+}
