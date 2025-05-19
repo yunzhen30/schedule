@@ -36,3 +36,90 @@
     color: #6c757d;
     margin-right: 10px;
 }
+
+#current-date {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #0d6efd;
+    margin-bottom: 1rem;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+}
+
+.time-section {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.time-section:hover {
+    opacity: 1;
+}
+
+.time-section h5 {
+    color: #495057;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 8px;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.time-section h5::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #0d6efd;
+}
+
+#task-date,
+#task-time {
+    max-width: 100%;
+}
+
+.task-list {
+    min-height: 50px;
+}
+
+.task-list:empty {
+    padding: 10px;
+    background-color: #fff;
+    border: 2px dashed #dee2e6;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.task-list:empty::after {
+    content: '尚無行程';
+    color: #6c757d;
+    font-style: italic;
+}
+
+.task-description {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+    margin-left: 1.75rem;
+    white-space: pre-line;
+}
+
+.task-text {
+    font-weight: 500;
+}
+
+#task-description {
+    resize: vertical;
+    min-height: 60px;
+    max-height: 150px;
+}
