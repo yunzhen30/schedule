@@ -4,14 +4,28 @@ class Calendar {
         this.selectedDate = new Date();
         this.currentView = 'month';
         this.events = [];
+        this.categories = this.loadCategories() || [
+            { id: 'work', name: '工作', color: '#4285f4' },
+            { id: 'personal', name: '個人', color: '#0f9d58' },
+            { id: 'family', name: '家庭', color: '#db4437' },
+            { id: 'other', name: '其他', color: '#f4b400' }
+        ];
+        this.theme = localStorage.getItem('calendar-theme') || 'light';
+        this.location = { lat: 25.0330, lon: 121.5654 }; // 預設台北市座標
         
         // DOM 元素
         this.calendarBody = document.getElementById('calendar-body');
         this.currentPeriod = document.getElementById('current-period');
         this.eventModal = null;
         
+        // 套用主題
+        document.documentElement.setAttribute('data-theme', this.theme);
+        
         // 載入儲存的行程
         this.loadEvents();
+        
+        // 初始化天氣資訊
+        this.updateWeather();
     }
     
     init() {
@@ -23,6 +37,12 @@ class Calendar {
         
         // 設定預設視圖
         this.setView('month');
+        
+        // 綁定主題切換
+        document.getElementById('theme-toggle').addEventListener('click', () => this.toggleTheme());
+        
+        // 每小時更新天氣
+        setInterval(() => this.updateWeather(), 3600000);
     }
     
     bindEventHandlers() {
@@ -294,8 +314,13 @@ class Calendar {
     createEventElement(event) {
         const eventElement = document.createElement('div');
         eventElement.className = 'event';
-        eventElement.style.backgroundColor = event.color || '#4285f4';
-        eventElement.textContent = event.title;
+        eventElement.style.backgroundColor = event.color;
+        
+        const category = this.categories.find(c => c.id === event.category);
+        eventElement.innerHTML = `
+            <div class="event-title">${event.title}</div>
+            ${category ? `<span class="category-tag" style="background-color: ${category.color}">${category.name}</span>` : ''}
+        `;
         
         eventElement.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -370,7 +395,8 @@ class Calendar {
             start: document.getElementById('event-start').value,
             end: document.getElementById('event-end').value,
             description: document.getElementById('event-description').value,
-            color: document.getElementById('event-color').value,
+            category: document.getElementById('event-category').value,
+            color: this.categories.find(c => c.id === document.getElementById('event-category').value)?.color || '#4285f4',
             repeat: document.getElementById('event-repeat').value,
             allDay: document.getElementById('all-day').checked
         };
@@ -436,6 +462,14 @@ class Calendar {
         this.events = savedEvents ? JSON.parse(savedEvents) : [];
     }
     
+    loadCategories() {
+        return JSON.parse(localStorage.getItem('calendar-categories'));
+    }
+
+    saveCategories() {
+        localStorage.setItem('calendar-categories', JSON.stringify(this.categories));
+    }
+    
     exportEvents() {
         const dataStr = JSON.stringify(this.events, null, 2);
         const blob = new Blob([dataStr], { type: 'application/json' });
@@ -475,6 +509,44 @@ class Calendar {
     
     formatDateTime(date) {
         return date.toISOString().slice(0, 16);
+    }
+    
+    toggleTheme() {
+        this.theme = this.theme === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', this.theme);
+        localStorage.setItem('calendar-theme', this.theme);
+        
+        // 更新主題切換按鈕圖示
+        const icon = document.querySelector('#theme-toggle i');
+        icon.className = this.theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    }
+
+    async updateWeather() {
+        try {
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.location.lat}&lon=${this.location.lon}&units=metric&appid=YOUR_API_KEY`);
+            const data = await response.json();
+            
+            const weatherDisplay = document.getElementById('weather-display');
+            weatherDisplay.innerHTML = `
+                <i class="fas fa-${this.getWeatherIcon(data.weather[0].main)} weather-icon"></i>
+                <span class="weather-temp">${Math.round(data.main.temp)}°C</span>
+            `;
+        } catch (error) {
+            console.error('天氣資訊更新失敗:', error);
+        }
+    }
+
+    getWeatherIcon(weatherType) {
+        const icons = {
+            'Clear': 'sun',
+            'Clouds': 'cloud',
+            'Rain': 'cloud-rain',
+            'Snow': 'snowflake',
+            'Thunderstorm': 'bolt',
+            'Drizzle': 'cloud-rain',
+            'Mist': 'smog'
+        };
+        return icons[weatherType] || 'cloud';
     }
 }
 

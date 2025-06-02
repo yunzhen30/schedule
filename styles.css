@@ -351,3 +351,89 @@ body {
 .event:hover {
     filter: brightness(95%);
 }
+
+/* 深色主題 */
+[data-theme="dark"] {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .toolbar {
+    background-color: #2d2d2d;
+    border-color: #404040;
+}
+
+[data-theme="dark"] .calendar-view {
+    background-color: #2d2d2d;
+    border-color: #404040;
+}
+
+[data-theme="dark"] .calendar-cell {
+    border-color: #404040;
+    background-color: #2d2d2d;
+}
+
+[data-theme="dark"] .calendar-cell.other-month {
+    background-color: #262626;
+}
+
+[data-theme="dark"] .calendar-cell.today {
+    background-color: #1a365d;
+}
+
+[data-theme="dark"] .modal-content {
+    background-color: #2d2d2d;
+    border-color: #404040;
+}
+
+[data-theme="dark"] .modal-header {
+    background-color: #363636;
+    border-color: #404040;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+    background-color: #363636;
+    border-color: #404040;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .btn-outline-secondary {
+    color: #e0e0e0;
+    border-color: #404040;
+}
+
+[data-theme="dark"] .weather-display {
+    color: #e0e0e0;
+    background-color: #363636;
+    border: 1px solid #404040;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+/* 天氣顯示樣式 */
+.weather-display {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.875rem;
+}
+
+.weather-icon {
+    margin-right: 4px;
+}
+
+.weather-temp {
+    font-weight: 500;
+}
+
+/* 分類標籤樣式 */
+.category-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    margin-right: 4px;
+    color: white;
+}
